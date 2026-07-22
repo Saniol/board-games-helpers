@@ -1,0 +1,170 @@
+<html>
+    <head>
+        <script src="./jquery-3.1.1.min.js"></script>
+        <script>
+            (function($) {
+                const fullTime = 60;
+                let timer = fullTime;
+                const speechUtter = new SpeechSynthesisUtterance();
+                const audioContext = new AudioContext();
+                const gainNode = audioContext.createGain();
+                const defaultGain = 0.075;
+                const speakTimes = [0, 1, 2, 3, 4, 5, 10, 15, 30];
+
+                speechUtter.lang = 'pl';
+                gainNode.gain.value = defaultGain;
+                gainNode.connect(audioContext.destination);
+
+                const getColor = (timer) => {
+                    if (timer > 30) {
+                        return 'white';
+                    }
+                    if (timer >= 10) {
+                        return 'yellow';
+                    }
+                    if (timer < 10 && timer > 0) {
+                        return 'red';
+                    }
+                    return 'gray';
+                };
+                const formatSeconds = seconds => {
+                    if (seconds >= 10) {
+                        return seconds;
+                    }
+
+                    return `0${seconds}`;
+                }
+                const formatTime = (timer) => {
+                    if (timer >= 0) {
+                        return `${Math.floor(timer / 60)}:${formatSeconds(timer%60)}`;
+                    }
+
+                    return '00:00';
+                };
+                const updateView = () => {
+                    const color = getColor(timer);
+                    
+                    $('#timer').html(formatTime(timer));
+                    $('body').css('background-color', color);
+
+                };
+                const getSpeakMessage = () => {
+                    if (timer === 0) {
+                        return 'koniec czasu';
+                    }
+
+                    return timer < 10
+                                ? String(timer)
+                                : `${timer} - sekund`;
+                };
+                const getSpeakRate = () => {
+                    if (timer <= 5) {
+                        return 2.5;
+                    }
+                    if (timer === 10 || timer === 0) {
+                        return 1;
+                    }
+                    return 0.75;
+                };
+                const speakTime = () => {
+                    if (timer < 0 || speakTimes.indexOf(timer) === -1) {
+                        return;
+                    }
+
+                    speechUtter.text = getSpeakMessage();
+                    speechUtter.rate = getSpeakRate();
+
+                    window.speechSynthesis.speak(speechUtter);
+                };
+                const speakText = (text) => {
+                    speechUtter.text = text;
+                    speechUtter.rate = 0.7;
+
+                    window.speechSynthesis.speak(speechUtter);
+                }
+                const playBeep = () => {
+                    const o = audioContext.createOscillator();
+
+                    o.type = "triangle";
+                    o.connect(gainNode);
+                    // o.connect(audioContext.destination);
+                    o.start();
+
+                    setTimeout(() => o.stop(), 75);
+                }
+                const resetTimer = () => {
+                    timer = fullTime;
+                    updateView();
+                    playBeep();
+                };
+                const processTimer = () => {
+                    timer--;
+                    speakTime();
+                    updateView();
+                };
+
+                const getFunnyMessage = (evt) => {
+                            return null;
+                    switch(evt.keyCode) {
+                        case 67:
+                            return 'Ciągnij trzy.';
+                        case 68:
+                            return 'Dziękuję Kocie!';
+                        case 74:
+                            return 'Dawać tu dżokusie';
+                        case 75:
+                            return 'Mama kończy.';
+                        case 77:
+                            return 'Mateusz nie oszukuj!';
+                        case 78:
+                            return 'Na zdrowie!';
+                        case 83:
+                            return 'Ze stej serii';
+                        case 84:
+                            return 'Tata, gdzie się patrzysz?';
+                        case 85:
+                            return 'Mati uspokój się';
+                        case 90:
+                            return 'Znowu przegram.';
+                        default:
+                            return null;
+                    }
+                }
+
+                const penaltyMessage = () => {
+                    gainNode.gain.value = 2;
+                    speakText('Karny! Ciągniesz 3 karty i tracisz turę');
+                    gainNode.gain.value = defaultGain;
+                }
+
+                $(document).ready(() => {
+                    window.addEventListener('keydown', (evt) => {
+                        const funnyMessage = getFunnyMessage(evt);
+
+                        if (evt.keyCode === 88) {
+                            penaltyMessage();
+                            return;
+                        }
+                        if (funnyMessage) {
+                            speakText(funnyMessage);
+                            return;
+                        }
+                        
+                        resetTimer();
+                    });
+                    window.addEventListener('click', () => {
+                        resetTimer();
+                    });
+
+                    updateView();
+                    setInterval(processTimer, 1000);
+                });
+            })(jQuery);
+        </script>
+    </head>
+    <body>
+        <div style="height: 100%; width: 100%;">
+            <div id="timer" style="padding-top: 400px; font-size: 128px; width: 100%; text-align: center;">00:00</div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <script src="./jquery-3.1.1.min.js"></script>
+        <script src="./script.js"></script>
+        <style>
+            .box {
+                width: 200px;
+                height: 300px;
+                margin: 10px 6px;
+                float: left;
+                position: relative;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select:none;
+                user-select:none;
+                -o-user-select:none;
+            }
+            .quater {
+                width: 50%;
+                height: 50%;
+                margin: 0;
+                float: left;
+            }
+            .red {
+                background-color: red;
+            }
+            .yellow {
+                background-color: yellow;
+            }
+            .blue {
+                background-color: blue;
+            }
+            .violet {
+                background-color: violet;
+            }
+            .fire {
+                background-color: black;
+                color: white;
+            }
+            .counter {
+                text-align: center;
+                position: absolute;
+                z-index: 5;
+                top: 50px;
+                font-size: 64px;
+                width: 100%;
+                font-weight: bold;
+            }
+            .container {
+                width: 1280px;
+                margin: 0 auto;
+            }
+            .info {
+                width: 100%;
+                text-align: center;
+                font-size: 64px;
+                font-weight: bold;
+            }
+            .cards {
+                height: 320px;
+                position: relative;
+            }
+            .stats {
+                margin-top: 20px;
+                position: relative;
+            }
+            .reset-btn {
+                width: 200px;
+                text-align: center;
+                font-size: 64px;
+                font-weight: bold;
+                background-color: grey;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="cards">
+                <div class="box red">
+                    <p class="counter"></p>
+                </div>
+                <div class="box yellow">
+                    <p class="counter"></p>
+                </div>
+                <div class="box blue">
+                    <p class="counter"></p>
+                </div>
+                <div class="box violet">
+                    <p class="counter"></p>
+                </div>
+                <div class="box bb">
+                    <p class="counter"></p>
+                    <div class="quater red"></div>
+                    <div class="quater yellow"></div>
+                    <div class="quater blue"></div>
+                    <div class="quater violet"></div>
+                </div>
+                <div class="box fire">
+                    <p class="counter"></p>
+                </div>
+            </div>
+            <div class="stats">
+                <p class="info">Pozostało w sumie: <span class="total-left"></span></p>
+                <p class="info">Prawdopodobieństwo wybuchu: <span class="fire-rate"></span></p>
+                <p class="info">Ilość zwykłych kart na wybuch: <span class="cards-avg"></span></p>
+                <div class="reset-btn">Reset</div>
+            </div>
+        </div>
+    </body>
+</html>
