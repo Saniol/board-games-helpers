@@ -1,6 +1,137 @@
 <html>
     <head>
         <script src="./jquery-3.1.1.min.js"></script>
+        <style>
+            :root {
+                --bg-start: #eaf7ff;
+                --bg-end: #bfe2ff;
+                --panel: rgba(255, 255, 255, 0.8);
+                --panel-border: rgba(87, 150, 255, 0.25);
+                --text: #12324d;
+                --muted: #4e6a83;
+                --accent: #3f8fe8;
+                --accent-strong: #1f6fd2;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                min-height: 100vh;
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                color: var(--text);
+                background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 24px;
+            }
+
+            .app {
+                width: min(900px, 100%);
+                position: relative;
+                background: var(--panel);
+                border: 1px solid var(--panel-border);
+                border-radius: 28px;
+                box-shadow: 0 16px 45px rgba(33, 99, 179, 0.16);
+                padding: 48px 28px 24px;
+                backdrop-filter: blur(10px);
+            }
+
+            .home-link {
+                position: absolute;
+                top: 14px;
+                right: 14px;
+                padding: 8px 12px;
+                border-radius: 999px;
+                background: rgba(63, 143, 232, 0.12);
+                color: var(--accent-strong);
+                font-size: 0.9rem;
+                font-weight: 700;
+                text-decoration: none;
+                border: 1px solid rgba(63, 143, 232, 0.2);
+            }
+
+            #timer {
+                font-size: clamp(4rem, 12vw, 8rem);
+                font-weight: 700;
+                text-align: center;
+                margin: 24px 0 12px;
+                letter-spacing: 0.04em;
+            }
+
+            .hint {
+                text-align: center;
+                color: var(--muted);
+                margin-bottom: 24px;
+            }
+
+            .pill-row {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 8px;
+            }
+
+            .message-pill,
+            .random-button {
+                border: 0;
+                border-radius: 999px;
+                padding: 10px 14px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                color: var(--text);
+                background: linear-gradient(135deg, #ffffff, #dcefff);
+                box-shadow: 0 6px 14px rgba(31, 111, 210, 0.12);
+            }
+
+            .message-pill:hover,
+            .random-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 18px rgba(31, 111, 210, 0.18);
+            }
+
+            .random-button {
+                background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+                color: white;
+            }
+
+            @media (max-width: 700px) {
+                body {
+                    padding: 12px;
+                }
+
+                .app {
+                    padding: 44px 16px 16px;
+                }
+
+                .home-link {
+                    top: 10px;
+                    right: 10px;
+                    padding: 7px 10px;
+                    font-size: 0.85rem;
+                }
+
+                .hint {
+                    font-size: 0.95rem;
+                }
+
+                .pill-row {
+                    gap: 8px;
+                }
+
+                .message-pill,
+                .random-button {
+                    width: calc(50% - 4px);
+                    min-width: 0;
+                }
+            }
+        </style>
         <script>
             (function($) {
                 const fullTime = 60;
@@ -10,6 +141,18 @@
                 const gainNode = audioContext.createGain();
                 const defaultGain = 0.075;
                 const speakTimes = [0, 1, 2, 3, 4, 5, 10, 15, 30];
+                const funnyMessages = [
+                    { key: 'c', label: 'Trzy', text: 'Ciągnij trzy.' },
+                    { key: 'd', label: 'Kot', text: 'Dziękuję Kocie!' },
+                    { key: 'j', label: 'Joker', text: 'Dawać tu dżokusie' },
+                    { key: 'k', label: 'Mama', text: 'Mama kończy.' },
+                    { key: 'm', label: 'Oszustwo', text: 'Mateusz nie oszukuj!' },
+                    { key: 'n', label: 'Toast', text: 'Na zdrowie!' },
+                    { key: 's', label: 'Seria', text: 'Ze stej serii' },
+                    { key: 't', label: 'Tata', text: 'Tata, gdzie się patrzysz?' },
+                    { key: 'u', label: 'Spokój', text: 'Mati uspokój się' },
+                    { key: 'z', label: 'Przegrana', text: 'Znowu przegram.' }
+                ];
 
                 speechUtter.lang = 'pl';
                 gainNode.gain.value = defaultGain;
@@ -17,15 +160,15 @@
 
                 const getColor = (timer) => {
                     if (timer > 30) {
-                        return 'white';
+                        return '#f6fbff';
                     }
                     if (timer >= 10) {
-                        return 'yellow';
+                        return '#ffef98';
                     }
                     if (timer < 10 && timer > 0) {
-                        return 'red';
+                        return '#ffbfc1';
                     }
-                    return 'gray';
+                    return '#dce4ee';
                 };
                 const formatSeconds = seconds => {
                     if (seconds >= 10) {
@@ -43,10 +186,9 @@
                 };
                 const updateView = () => {
                     const color = getColor(timer);
-                    
-                    $('#timer').html(formatTime(timer));
-                    $('body').css('background-color', color);
 
+                    $('#timer').html(formatTime(timer));
+                    $('body').css('background', `linear-gradient(135deg, ${color}, #bfe2ff)`);
                 };
                 const getSpeakMessage = () => {
                     if (timer === 0) {
@@ -87,7 +229,6 @@
 
                     o.type = "triangle";
                     o.connect(gainNode);
-                    // o.connect(audioContext.destination);
                     o.start();
 
                     setTimeout(() => o.stop(), 75);
@@ -102,58 +243,77 @@
                     speakTime();
                     updateView();
                 };
-
                 const getFunnyMessage = (evt) => {
-                            return null;
-                    switch(evt.keyCode) {
-                        case 67:
-                            return 'Ciągnij trzy.';
-                        case 68:
-                            return 'Dziękuję Kocie!';
-                        case 74:
-                            return 'Dawać tu dżokusie';
-                        case 75:
-                            return 'Mama kończy.';
-                        case 77:
-                            return 'Mateusz nie oszukuj!';
-                        case 78:
-                            return 'Na zdrowie!';
-                        case 83:
-                            return 'Ze stej serii';
-                        case 84:
-                            return 'Tata, gdzie się patrzysz?';
-                        case 85:
-                            return 'Mati uspokój się';
-                        case 90:
-                            return 'Znowu przegram.';
-                        default:
-                            return null;
-                    }
-                }
+                    const key = evt.key ? evt.key.toLowerCase() : '';
+                    const keyCodeMap = {
+                        67: 'c',
+                        68: 'd',
+                        74: 'j',
+                        75: 'k',
+                        77: 'm',
+                        78: 'n',
+                        83: 's',
+                        84: 't',
+                        85: 'u',
+                        90: 'z'
+                    };
+                    const normalizedKey = keyCodeMap[evt.keyCode] || key;
 
+                    return funnyMessages.find(message => message.key === normalizedKey) || null;
+                }
+                const speakFunnyMessage = (messageKey) => {
+                    const message = funnyMessages.find(item => item.key === messageKey);
+
+                    if (message) {
+                        speakText(message.text);
+                    }
+                };
+                const speakRandomFunnyMessage = () => {
+                    const message = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+
+                    if (message) {
+                        speakText(message.text);
+                    }
+                };
                 const penaltyMessage = () => {
                     gainNode.gain.value = 2;
                     speakText('Karny! Ciągniesz 3 karty i tracisz turę');
                     gainNode.gain.value = defaultGain;
-                }
+                };
 
                 $(document).ready(() => {
+                    funnyMessages.forEach((message) => {
+                        $('.pill-row').append(`<button class="message-pill" data-key="${message.key}">${message.label}</button>`);
+                    });
+                    $('.pill-row').append('<button class="random-button">Random</button>');
+
                     window.addEventListener('keydown', (evt) => {
                         const funnyMessage = getFunnyMessage(evt);
 
-                        if (evt.keyCode === 88) {
+                        if (evt.keyCode === 88 || evt.key === 'x' || evt.key === 'X') {
                             penaltyMessage();
                             return;
                         }
                         if (funnyMessage) {
-                            speakText(funnyMessage);
+                            speakText(funnyMessage.text);
                             return;
                         }
-                        
+
                         resetTimer();
                     });
-                    window.addEventListener('click', () => {
+                    window.addEventListener('click', (evt) => {
+                        if ($(evt.target).hasClass('message-pill') || $(evt.target).hasClass('random-button')) {
+                            return;
+                        }
+
                         resetTimer();
+                    });
+
+                    $('.pill-row').on('click', '.message-pill', function() {
+                        speakFunnyMessage($(this).data('key'));
+                    });
+                    $('.pill-row').on('click', '.random-button', () => {
+                        speakRandomFunnyMessage();
                     });
 
                     updateView();
@@ -163,8 +323,11 @@
         </script>
     </head>
     <body>
-        <div style="height: 100%; width: 100%;">
-            <div id="timer" style="padding-top: 400px; font-size: 128px; width: 100%; text-align: center;">00:00</div>
+        <div class="app">
+            <a class="home-link" href="./index.html">Home</a>
+            <div id="timer">00:00</div>
+            <div class="hint">Press any key to reset the timer, or use the buttons below for funny messages.</div>
+            <div class="pill-row"></div>
         </div>
     </body>
 </html>
