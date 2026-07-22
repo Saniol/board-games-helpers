@@ -184,44 +184,56 @@
 
             @media (max-width: 700px) {
                 body {
-                    padding: 12px;
+                    padding: 10px;
+                    align-items: flex-start;
                 }
 
                 .container {
-                    padding: 16px;
+                    width: 100%;
+                    padding: 14px;
+                    border-radius: 18px;
                 }
 
                 .top-bar {
                     flex-direction: column;
                     align-items: flex-start;
+                    gap: 10px;
+                    margin-bottom: 14px;
                 }
 
                 .home-link {
                     align-self: flex-end;
+                    padding: 8px 12px;
                 }
 
                 .cards {
-                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    grid-template-columns: 1fr;
                     gap: 10px;
                 }
 
                 .box {
-                    aspect-ratio: 1.65 / 2.4;
+                    aspect-ratio: 3 / 2;
                     border-radius: 12px;
                 }
 
                 .counter {
-                    font-size: 1.55rem;
+                    font-size: 1.6rem;
                     top: 48%;
                 }
 
+                .stats {
+                    gap: 8px;
+                    margin-top: 16px;
+                }
+
                 .info {
-                    font-size: 1rem;
+                    font-size: 0.95rem;
                 }
 
                 .reset-btn {
                     width: 100%;
-                    font-size: 1.05rem;
+                    font-size: 1rem;
+                    padding: 12px 14px;
                 }
             }
         </style>
