@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Games Helpers</title>
+    <style>
+        :root {
+            --bg: #07111f;
+            --panel: #0f1d33;
+            --panel-2: #142743;
+            --accent: #4ea8de;
+            --accent-2: #7ad6ff;
+            --text: #eaf4ff;
+            --muted: #8ea5bf;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg), #102542 70%, #163a62);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: min(920px, 100%);
+            background: rgba(15, 29, 51, 0.92);
+            border: 1px solid rgba(126, 214, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+
+        .hero {
+            padding: 36px 40px 24px;
+            background: linear-gradient(90deg, rgba(78, 168, 222, 0.18), rgba(122, 214, 255, 0.05));
+            border-bottom: 1px solid rgba(122, 214, 255, 0.16);
+        }
+
+        .hero h1 {
+            margin: 0 0 10px;
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+        }
+
+        .hero p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            padding: 30px 40px 40px;
+        }
+
+        .link-card {
+            background: linear-gradient(180deg, var(--panel-2), rgba(20, 39, 67, 0.95));
+            border: 1px solid rgba(126, 214, 255, 0.18);
+            border-radius: 18px;
+            padding: 24px;
+            text-decoration: none;
+            color: var(--text);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-2);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .link-card h2 {
+            margin: 0 0 8px;
+            font-size: 1.25rem;
+        }
+
+        .link-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .pill {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(78, 168, 222, 0.16);
+            color: var(--accent-2);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 700px) {
+            .links {
+                grid-template-columns: 1fr;
+            }
+
+            .hero, .links {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <section class="hero">
+            <h1>Board Games Helpers</h1>
+            <p>Select a tool to open its page and get started.</p>
+        </section>
+        <section class="links">
+            <a class="link-card" href="./rumikub.html">
+                <h2>Rumikub Timer</h2>
+                <p>A simple timer helper with voice prompts and keyboard shortcuts for fun reactions.</p>
+                <span class="pill">Open page</span>
+            </a>
+            <a class="link-card" href="./star-wars-rebel.html">
+                <h2>Star Wars Rebel</h2>
+                <p>A counter tracker for the Star Wars Rebel card game with quick reset and click controls.</p>
+                <span class="pill">Open page</span>
+            </a>
+        </section>
+    </main>
+</body>
+</html>
