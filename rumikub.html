@@ -69,9 +69,8 @@
             }
 
             .pill-row {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
+                display: grid;
+                grid-template-columns: repeat(5, minmax(0, 1fr));
                 gap: 10px;
                 margin-top: 8px;
             }
@@ -132,7 +131,7 @@
                 }
 
                 .pill-row {
-                    flex-direction: column;
+                    grid-template-columns: 1fr 1fr;
                     gap: 8px;
                 }
 
@@ -295,11 +294,6 @@
                 };
 
                 $(document).ready(() => {
-                    funnyMessages.forEach((message) => {
-                        $('.pill-row').append(`<button class="message-pill" data-key="${message.key}">${message.label}</button>`);
-                    });
-                    $('.pill-row').append('<button class="random-button">Losowo</button>');
-
                     window.addEventListener('keydown', (evt) => {
                         const funnyMessage = getFunnyMessage(evt);
 
@@ -340,7 +334,18 @@
             <a class="home-link" href="./index.html">Home</a>
             <div id="timer">00:00</div>
             <div class="hint">Press any key to reset the timer, or use the buttons below for funny messages.</div>
-            <div class="pill-row"></div>
+            <div class="pill-row">
+                <button class="message-pill" data-key="c">Trzy</button>
+                <button class="message-pill" data-key="d">Kot</button>
+                <button class="message-pill" data-key="j">Joker</button>
+                <button class="message-pill" data-key="k">Mama</button>
+                <button class="message-pill" data-key="m">Oszustwo</button>
+                <button class="message-pill" data-key="n">Toast</button>
+                <button class="message-pill" data-key="s">Seria</button>
+                <button class="message-pill" data-key="t">Tata</button>
+                <button class="message-pill" data-key="u">Spokój</button>
+                <button class="random-button">Losowo</button>
+            </div>
         </div>
     </body>
 </html>
